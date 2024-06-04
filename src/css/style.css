@@ -11,10 +11,21 @@
 
 /* @import 'react-toastify/dist/ReactToastify.css'; */
 
-@layer base {
+
+/* @layer base {
   body {
-    @apply bg-[#F8F9FB] font-roboto;
+    @apply bg-[#F8F9FB] font-DMSans;
   }
+} */
+
+@layer base {
+  .font-DMSans {
+    font-family: 'DM Sans', sans-serif;
+  }
+}
+
+body {
+  @apply bg-[#f7f9fb] font-DMSans;
 }
 
 .Toastify__toast-container {

@@ -1,12 +1,14 @@
-import './css/style.css'
+import Navbar from "./components/Navbar";
+import "./css/style.css";
+import LandingPage from "./pages/LandPage";
 
 function App() {
-
   return (
-    
-     <div className="bg-red-500 ">X</div>
-    
-  )
+    <>
+      <Navbar />
+      <LandingPage />
+    </>
+  );
 }
 
-export default App
+export default App;

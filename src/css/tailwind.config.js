@@ -6,8 +6,7 @@ export default {
     theme: {
       extend: {
         fontFamily: {
-          DMSans: ['DM Sans', 'sans-serif'],
-        //   roboto: ['Roboto', 'sans-serif'],
+          'DMSans': ['DM Sans', 'sans-serif'],
         },
         fontSize: {
           xxs: ['0.65rem', { lineHeight: '1.325' }],
