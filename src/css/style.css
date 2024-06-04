@@ -1,0 +1,78 @@
+/* Font Family From Google APIs */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+
+/* Additional styles */
+@import "additional-styles/utility-patterns.css";
+
+@import "tailwindcss/utilities";
+
+/* @import 'react-toastify/dist/ReactToastify.css'; */
+
+@layer base {
+  body {
+    @apply bg-[#F8F9FB] font-roboto;
+  }
+}
+
+.Toastify__toast-container {
+  min-width: 320px !important;
+  width: auto !important;
+  max-width: 500px !important;
+}
+
+/* Media query for mobile screens */
+@media (max-width: 768px) {
+  .Toastify__toast-container {
+    width: 100% !important;
+  }
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hovered-content {
+  overflow: hidden;
+  transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out;
+}
+
+.hovered-content.visible {
+  opacity: 1;
+}
+
+/* Custom CSS to hide time icon */
+.hide-time-icon::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+.hide-time-icon::-webkit-inner-spin-button {
+  display: none;
+}
+
+.hide-time-icon::-webkit-clear-button {
+  display: none;
+}
+
+.hide-scrollnumber::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+@layer utilities {
+  .selection-gradient {
+    background-clip: padding-box;
+    border-image-slice: 1;
+    border-width: 2px;
+    border-image-source: linear-gradient(45deg, #84dccf, #453da7);
+    border-radius: 10px !important;
+  }
+
+  .border-radius-container {
+    border-radius: 8px !important;
+    overflow: hidden;
+  }
+}
