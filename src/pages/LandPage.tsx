@@ -7,6 +7,7 @@ function LandPage() {
   const [hasWebcam, setHasWebcam] = useState(false);
   const webRef = useRef(null)
   const [hasMicrophone, setHasMicrophone] = useState(false);
+  const [imageSrc, setImageSrc] = useState<string | null>(null)
   const [isConnected, setIsConnected] = useState(navigator.onLine);
 
   useEffect(() => {
@@ -54,9 +55,15 @@ function LandPage() {
     };
   }, [hasMicrophone, hasWebcam]);
 
-  console.log({ navigator });
+  const handleScreenShot = () => {
+    console.log(123)
+    //@ts-ignore
+    let img = webRef?.current?.getScreenShot()
 
-  console.log({ hasMicrophone, hasWebcam });
+    setImageSrc(img)
+  }
+
+  console.log({imageSrc})
 
   return (
     <div className="w-full p-2 mt-4 px-7 md:px-80">
@@ -114,6 +121,7 @@ function LandPage() {
             <button
               type="button"
               className="px-6 py-2 rounded-md bg-[#755AE2] text-sm text-white font-medium"
+              onClick={() => handleScreenShot}
             >
               Take picture and continue
             </button>
