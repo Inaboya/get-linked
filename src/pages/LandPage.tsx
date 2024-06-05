@@ -28,9 +28,11 @@ function LandPage() {
 
         setTimeout(() => {
           setHasWebcam(
+            //@ts-ignore
             webRef?.current.state.hasUserMedia && videoDevices.length > 0
           );
           setHasMicrophone(
+            //@ts-ignore
             webRef?.current.state.hasUserMedia && audioDevices.length > 0
           );
         }, 2000);
