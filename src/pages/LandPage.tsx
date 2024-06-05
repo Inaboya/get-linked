@@ -83,7 +83,7 @@ function LandPage() {
   console.log({ webRef });
 
   return (
-    <div className="w-full p-2 mt-4 px-7 md:px-80">
+    <div className="w-full p-2 mt-4 px-7 lg:px-80">
       <div className="flex justify-center items-center bg-[#FFFFFF] p-10 rounded-lg">
         <div className="flex w-full flex-col gap-3">
           <h3 className="text-xl font-medium leading-[25px]">System check</h3>
