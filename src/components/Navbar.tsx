@@ -20,7 +20,7 @@ function Navbar() {
     }${seconds}`;
   };
   return (
-    <div className="w-full pt-7 pb-3 md:px-30 bg-[#FFFFFF] flex justify-between items-center">
+    <div className="w-full pt-7 pb-3 px-15 lg:px-30 bg-[#FFFFFF] flex justify-between items-center">
       <div className="flex items-center gap-4">
         <div className="w-[63px] h-[62px] rounded-md bg-[#3C1356] p-2 flex justify-center items-center">
           <svg
