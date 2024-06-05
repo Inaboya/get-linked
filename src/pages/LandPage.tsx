@@ -9,7 +9,9 @@ function LandPage() {
   const webRef = useRef(null);
   const [hasMicrophone, setHasMicrophone] = useState<boolean | null>(null);
   const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [isConnected, setIsConnected] = useState<boolean | null>(navigator.onLine);
+  const [isConnected, setIsConnected] = useState<boolean | null>(
+    navigator.onLine
+  );
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -25,8 +27,12 @@ function LandPage() {
         );
 
         setTimeout(() => {
-          setHasWebcam(videoDevices.length > 0);
-          setHasMicrophone(audioDevices.length > 0);
+          setHasWebcam(
+            webRef?.current.state.hasUserMedia && videoDevices.length > 0
+          );
+          setHasMicrophone(
+            webRef?.current.state.hasUserMedia && audioDevices.length > 0
+          );
         }, 2000);
       })
       .catch((error) => console.log(error));
@@ -80,6 +86,10 @@ function LandPage() {
     setImageSrc(null);
   };
 
+  const handleWebCamAllowed = () => setHasWebcam(true);
+
+  const handleWebCanDisallowed = () => setHasWebcam(false);
+
   console.log({ webRef });
 
   return (
@@ -106,7 +116,12 @@ function LandPage() {
               {imageSrc ? (
                 <img src={imageSrc} className="w-full h-full bg-cover" alt="" />
               ) : (
-                <WebCam className="w-full h-full" ref={webRef} />
+                <WebCam
+                  className="w-full h-full"
+                  ref={webRef}
+                  onUserMedia={handleWebCamAllowed}
+                  onUserMediaError={handleWebCanDisallowed}
+                />
               )}
             </div>
 
