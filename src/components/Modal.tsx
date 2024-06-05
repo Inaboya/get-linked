@@ -11,7 +11,7 @@ type ModalType = {
   size?: string
 }
 
-const Modal = ({ children, onClick, active, close, bg = true, size }: ModalType) => {
+const Modal = ({ children, onClick, active, bg = true, size }: ModalType) => {
   const ref = useRef(null)
   const buttonClickedOutside = useOutsideClick(ref)
 
