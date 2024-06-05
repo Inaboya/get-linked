@@ -1,14 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import BoxCard from "../components/BoxCard";
 import { MonitorRecorder, Wifi, LampCharge, Microphone } from "iconsax-react";
 import WebCam from "react-webcam";
+import Modal from "../components/Modal";
 
 function LandPage() {
-  const [hasWebcam, setHasWebcam] = useState(false);
-  const webRef = useRef(null)
-  const [hasMicrophone, setHasMicrophone] = useState(false);
-  const [imageSrc, setImageSrc] = useState<string | null>(null)
-  const [isConnected, setIsConnected] = useState(navigator.onLine);
+  const [hasWebcam, setHasWebcam] = useState<boolean | null>(null);
+  const webRef = useRef(null);
+  const [hasMicrophone, setHasMicrophone] = useState<boolean | null>(null);
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [isConnected, setIsConnected] = useState<boolean | null>(navigator.onLine);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     // Check for webcam and microphone
@@ -22,8 +24,10 @@ function LandPage() {
           (device) => device.kind === "audioinput"
         );
 
-        setHasWebcam(videoDevices.length > 0);
-        setHasMicrophone(audioDevices.length > 0);
+        setTimeout(() => {
+          setHasWebcam(videoDevices.length > 0);
+          setHasMicrophone(audioDevices.length > 0);
+        }, 2000);
       })
       .catch((error) => console.log(error));
 
@@ -53,17 +57,30 @@ function LandPage() {
       //     });
       //   }
     };
-  }, [hasMicrophone, hasWebcam]);
+  }, [hasMicrophone, hasWebcam, isConnected]);
+
+  console.log({ isConnected });
+
+  const handleOpenModal = useCallback(
+    () => setShowModal(!showModal),
+    [showModal]
+  );
 
   const handleScreenShot = () => {
-    console.log(123)
     //@ts-ignore
-    let img = webRef?.current?.getScreenShot()
+    let img = webRef?.current?.getScreenshot();
 
-    setImageSrc(img)
-  }
+    setImageSrc(img);
 
-  console.log({imageSrc})
+    handleOpenModal();
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setImageSrc(null);
+  };
+
+  console.log({ webRef });
 
   return (
     <div className="w-full p-2 mt-4 px-7 md:px-80">
@@ -80,13 +97,17 @@ function LandPage() {
             stable internet connection. To do this, please position yourself in
             front of your camera, ensuring that your entire face is clearly
             visible on the screen. This includes your forehead, eyes, ears,
-            nose, and lips. You can initiate a  5-second recording of yourself
-            by clicking the button below.
+            nose, and lips. You can initiate a 5-second recording of yourself by
+            clicking the button below.
           </p>
 
           <div className="mt-4 flex flex-col lg:flex-row items-center gap-4">
             <div className="w-[275px] h-[168px] rounded-md border border-[#755AE2]">
-              <WebCam className="w-full h-full" ref={webRef} />
+              {imageSrc ? (
+                <img src={imageSrc} className="w-full h-full bg-cover" alt="" />
+              ) : (
+                <WebCam className="w-full h-full" ref={webRef} />
+              )}
             </div>
 
             <div className="w-[275px] grid grid-cols-2 gap-4">
@@ -99,8 +120,8 @@ function LandPage() {
               <BoxCard
                 icon={<Wifi size="18" color="#755AE2" />}
                 label="Speed"
-                status={false}
-                statusIcon={<MonitorRecorder size="12" color="#fff" />}
+                status={isConnected}
+                statusIcon={<Wifi size="12" color="#fff" />}
               />
               <BoxCard
                 icon={<MonitorRecorder size="18" color="#755AE2" />}
@@ -112,7 +133,7 @@ function LandPage() {
                 icon={<LampCharge size="18" color="#755AE2" />}
                 label="Lighting"
                 status={false}
-                statusIcon={<MonitorRecorder size="12" color="#fff" />}
+                statusIcon={<LampCharge size="12" color="#fff" />}
               />
             </div>
           </div>
@@ -121,13 +142,56 @@ function LandPage() {
             <button
               type="button"
               className="px-6 py-2 rounded-md bg-[#755AE2] text-sm text-white font-medium"
-              onClick={() => handleScreenShot}
+              onClick={() => handleScreenShot()}
             >
               Take picture and continue
             </button>
           </div>
         </div>
       </div>
+
+      <Modal
+        close
+        onClick={handleOpenModal}
+        active={showModal}
+        size="md:w-[35rem]"
+      >
+        <div className="w-full bg-white" style={{ borderRadius: "18px" }}>
+          <div
+            className="w-full flex justify-between items-center bg-[#755AE2] pt-4 px-7 pb-3 "
+            style={{ borderRadius: "18px 18px 0px 0px" }}
+          >
+            <h6 className="text-sm text-white font-medium">Start assessment</h6>
+
+            <button
+              type="button"
+              className="px-6 py-2 bg-[#F5F3FF33] text-xs text-white font-medium rounded-md"
+              onClick={() => handleCloseModal()}
+            >
+              Close
+            </button>
+          </div>
+
+          <div className="w-full p-10 flex flex-col justify-center items-center bg-[#F5F3FF]">
+            <h5 className="text-base text-[#755AE2] font-semibold">
+              Proceed to start assessment
+            </h5>
+            <p className="text-sm text-[#675E8B] text-center">
+              Kindly keep to the rules of the assessment and sit up, stay in
+              front of your camera/webcam and start your assessment.
+            </p>
+          </div>
+
+          <div className="w-full p-5 flex justify-end">
+            <button
+              type="button"
+              className="px-6 py-2 bg-[#755AE2] text-sm text-white font-medium rounded-md"
+            >
+              Proceed
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

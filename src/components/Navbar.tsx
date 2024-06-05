@@ -1,6 +1,24 @@
+import { useState, useEffect } from "react";
 import { Eye, TimerStart } from "iconsax-react";
 
 function Navbar() {
+  const [timeLeft, setTimeLeft] = useState(30 * 60);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft((prevTimeLeft) => prevTimeLeft - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const formatTime = (time: number): string => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes < 10 ? "0" : ""}${minutes}:${
+      seconds < 10 ? "0" : ""
+    }${seconds}`;
+  };
   return (
     <div className="w-full pt-7 pb-3 md:px-30 bg-[#FFFFFF] flex justify-between items-center">
       <div className="flex items-center gap-4">
@@ -43,7 +61,7 @@ function Navbar() {
         <div className="flex items-center gap-4 px-6 py-3 bg-[#ECE8FF] rounded-md">
           <TimerStart size="20" color="#755AE2" />
           <p className="text-sm text-[#755ae2] leading-[18.23px] font-semibold">
-            29:10 <span className="text-xs">time left</span>
+            {formatTime(timeLeft)} <span className="text-xs">time left</span>
           </p>
         </div>
 
