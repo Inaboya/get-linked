@@ -132,7 +132,7 @@ function LandPage() {
               <BoxCard
                 icon={<LampCharge size="18" color="#755AE2" />}
                 label="Lighting"
-                status={false}
+                status={null}
                 statusIcon={<LampCharge size="12" color="#fff" />}
               />
             </div>
